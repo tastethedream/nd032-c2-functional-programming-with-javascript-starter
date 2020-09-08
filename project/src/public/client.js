@@ -1,5 +1,3 @@
-//alert("pages are linked")
-
 let store = {
     user: { name: "Student" },
     apod: '',
@@ -8,21 +6,33 @@ let store = {
 
 // add our markup to the page
 const root = document.getElementById('root');
-// let button = document.getElementById('goToRovers');
+
+const roverButtons = document.getElementById('roverButtons');
+
 
 const updateStore = (store, newState) => {
     store = Object.assign(store, newState)
     render(root, store)
-    // button = document.getElementById('goToRovers');
+    renderRoverButtons(roverButtons)
+    //renderRoverButtons(root, store)
+};
 
-}
+// const updatePage = (newState) => {
+//     store = Object.assign(newState)
+//     renderRoverButtons(roverButtons)
+// };
 
 const render = async (root, state) => {
     root.innerHTML = welcomeScreen(state)
-}
+};
+
+const renderRoverButtons = (roverButtons) => {
+    roverButtons.innerHTML = selectionScreen()
+};
 
 
-// create content
+// create welcome screen content
+
 const welcomeScreen = (state) => {
     let { rovers, apod } = state
 
@@ -46,20 +56,48 @@ const welcomeScreen = (state) => {
                 </section>
                 <div class="buttonContainer">
                     <div class="centre">
-                        <button id="goToRovers" onclick="hideWelcome()">Click here to select your Mars Rover</button>
+                        <button id="goToRovers" onclick="hideWelcome();displayButtons()">Click here to select your Mars Rover</button>
                     </div>    
                 </div>
             </main>
         
-            <footer></footer>
+            <footer>
+                <h4> Copyright Dawn Rose 2020 </h4>
+            </footer>
          </div>      
     `
-}
+};
+
+
+// create selection screen content
+
+const selectionScreen = () => {
+    
+    return `
+        <div id="selection">
+            <header>
+                <h1 class="welcomeTitle">Please Select Your Rover</h1>
+            </header>
+            <main>
+                <section class="selectionContainer>
+                    <div class="roverButtons">
+                        <button id="curiosity" onclick="">Curiosity</button>
+                    </div>    
+                </section>
+            </main>
+        
+            <footer>
+                <h4> Copyright Dawn Rose 2020 </h4>
+            </footer>
+         </div>      
+    `
+};
+
 
 // listening for load event because page should load before any JS is called
 window.addEventListener('load', () => {
     render(root, store)
-})
+});
 
 // ------------------------------------------------------  COMPONENTS
 
@@ -121,7 +159,17 @@ const getImageOfTheDay = (state) => {
 
 function hideWelcome(){
     document.getElementById('welcome').style.display='none';
-    alert("choose rover button was clicked");
+   
+    //alert("choose rover button was clicked");
+};
+
+function displayButtons(){
+    const hideButtons = document.getElementById('selection').innerHTML;
+   if (hideButtons.style.display !== "none"){
+       hideButtons.style.display = "none"
+   } else {
+       hideButtons.style.display = "block";
+   }
 };
 
 

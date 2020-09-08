@@ -1,4 +1,4 @@
-alert("pages are linked")
+//alert("pages are linked")
 
 let store = {
     user: { name: "Student" },
@@ -7,41 +7,52 @@ let store = {
 }
 
 // add our markup to the page
-const root = document.getElementById('root')
+const root = document.getElementById('root');
+// let button = document.getElementById('goToRovers');
 
 const updateStore = (store, newState) => {
     store = Object.assign(store, newState)
     render(root, store)
+    // button = document.getElementById('goToRovers');
+
 }
 
 const render = async (root, state) => {
-    root.innerHTML = App(state)
+    root.innerHTML = welcomeScreen(state)
 }
 
 
 // create content
-const App = (state) => {
+const welcomeScreen = (state) => {
     let { rovers, apod } = state
 
     return `
-        <header></header>
-        <main>
-            ${Greeting(store.user.name)}
-            <section>
-                <h3>Put things on the page!</h3>
-                <p>Here is an example section.</p>
-                <p>
-                    One of the most popular websites at NASA is the Astronomy Picture of the Day. In fact, this website is one of
-                    the most popular websites across all federal agencies. It has the popular appeal of a Justin Bieber video.
-                    This endpoint structures the APOD imagery and associated metadata so that it can be repurposed for other
-                    applications. In addition, if the concept_tags parameter is set to True, then keywords derived from the image
-                    explanation are returned. These keywords could be used as auto-generated hashtags for twitter or instagram feeds;
-                    but generally help with discoverability of relevant imagery.
-                </p>
-                ${ImageOfTheDay(apod)}
-            </section>
-        </main>
-        <footer></footer>
+        <div id="welcome">
+            <header>
+                <h1 class="welcomeTitle">Mars Rover Dashboard!</h1>
+            </header>
+            <main>
+                <section>
+                    <h3>NASA Image Of The Day!</h3>
+                    <p>
+                        One of the most popular websites at NASA is the Astronomy Picture of the Day. In fact, this website is one of
+                         the most popular websites across all federal agencies. It has the popular appeal of a Justin Bieber video.
+                         This endpoint structures the APOD imagery and associated metadata so that it can be repurposed for other
+                        applications. In addition, if the concept_tags parameter is set to True, then keywords derived from the image
+                         explanation are returned. These keywords could be used as auto-generated hashtags for twitter or instagram feeds;
+                        but generally help with discoverability of relevant imagery.
+                    </p>
+                    ${ImageOfTheDay(apod)}
+                </section>
+                <div class="buttonContainer">
+                    <div class="centre">
+                        <button id="goToRovers" onclick="hideWelcome()">Click here to select your Mars Rover</button>
+                    </div>    
+                </div>
+            </main>
+        
+            <footer></footer>
+         </div>      
     `
 }
 
@@ -104,4 +115,18 @@ const getImageOfTheDay = (state) => {
         .then(apod => updateStore(store, { apod }))
 
     //return data
-}
+};
+
+// Remove welcome screen when select rover button is clicked
+
+function hideWelcome(){
+    document.getElementById('welcome').style.display='none';
+    alert("choose rover button was clicked");
+};
+
+
+// button.onclick = () => {
+//     hideWelcome();
+//     console.log(button);
+   
+// };

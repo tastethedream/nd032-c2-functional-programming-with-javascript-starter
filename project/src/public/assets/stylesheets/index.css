@@ -8,12 +8,44 @@ body {
 }
 
 header {
-  /* header styles */
+  text-align: center;
 }
 
 main {
   flex: 1;
   padding: 20px;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+
+}
+
+.centre {
+  
+  display: flex;
+  justify-content: center;
+}
+
+#goToRovers {
+  width: auto;
+  height: 200px;
+  background: lightgray;
+  height: 50px;
+  text-align: center;
+  font-weight: bold;
+  color: var black ;
+  margin: 0;
+  cursor: pointer;
+  border-radius: 4%;
+}
+
+#goToRovers:hover{
+  background: darkgray;
+  box-shadow: black;
 }
 
 footer {

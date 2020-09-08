@@ -1,3 +1,5 @@
+alert("pages are linked")
+
 let store = {
     user: { name: "Student" },
     apod: '',
@@ -97,9 +99,9 @@ const ImageOfTheDay = (apod) => {
 const getImageOfTheDay = (state) => {
     let { apod } = state
 
-    fetch(`http://localhost:3000/apod`)
+    fetch(`http://localhost:8080/apod`)
         .then(res => res.json())
         .then(apod => updateStore(store, { apod }))
 
-    return data
+    //return data
 }

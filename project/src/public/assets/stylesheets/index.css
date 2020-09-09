@@ -1,5 +1,7 @@
 /* -------------------  MOBILE  --------------------- */
 
+/* Universal styles */
+
 body {
   display: flex;
   flex-direction: column;
@@ -9,6 +11,16 @@ body {
 
 header {
   text-align: center;
+  background: darkgrey;
+  color: white;
+  width: auto;
+  height: 100px;
+
+}
+
+header h1 {
+  font-size: 40px;
+  padding-top: 30px;
 }
 
 main {
@@ -16,21 +28,36 @@ main {
   padding: 20px;
 }
 
+ h3 {
+  text-align: center;
+}
+
+footer {
+  font-size: 12px;
+  text-align: center;
+  margin-top: 30px;
+  background: darkgray;
+  height: 30px;
+}
+
+footer h4 {
+  color: white;
+  padding-top: 8px;
+}
+
+/* Welcome screen styles */
+
 .buttonContainer {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 40px;
-
 }
 
 .centre {
-  
   display: flex;
   justify-content: center;
 }
-
-
 
 #goToRovers {
   width: auto;
@@ -50,15 +77,48 @@ main {
   box-shadow: black;
 }
 
+/* Selection screen styles */
+
 #selection {
   display: none;
 }
 
-footer {
-  font-size: 12px;
-  text-align: center;
+.buttons {
   margin-top: 60px;
 }
+
+.roverbutton {
+  height: 150px;
+  width: 300px;
+  font-size: 35px;
+  text-align: center;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-weight: bold;
+  margin: 50px auto;
+  top: 50%;
+  left: 40%;
+  display: block;
+  padding: 0;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  border: 1px solid;
+  box-shadow: 4px 4px 4px #999;
+  border-radius: 4%;
+}
+
+.roverbutton > span{
+  width: 100%;
+  height: 100%;
+}
+
+.roverbutton:hover {
+    background: grey;
+    color: white;
+    transition: 0.5s ease;
+
+}
+
+
 
 /* -------------------  TABLET  --------------------- */
 @media (min-width: 768px) {

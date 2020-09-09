@@ -14,13 +14,7 @@ const updateStore = (store, newState) => {
     store = Object.assign(store, newState)
     render(root, store)
     renderRoverButtons(roverButtons)
-    //renderRoverButtons(root, store)
 };
-
-// const updatePage = (newState) => {
-//     store = Object.assign(newState)
-//     renderRoverButtons(roverButtons)
-// };
 
 const render = async (root, state) => {
     root.innerHTML = welcomeScreen(state)
@@ -69,8 +63,7 @@ const welcomeScreen = (state) => {
 // create selection screen content
 
 const selectionScreen = () => {
-    
-    return `
+        return `
         <div id="selection" class="hidden">
             <header>
                 <h1 class="welcomeTitle">Please Select Your Rover</h1>
@@ -99,17 +92,17 @@ window.addEventListener('load', () => {
 // ------------------------------------------------------  COMPONENTS
 
 // Pure function that renders conditional information -- THIS IS JUST AN EXAMPLE, you can delete it.
-const Greeting = (name) => {
-    if (name) {
-        return `
-            <h1>Welcome, ${name}!</h1>
-        `
-    }
+// const Greeting = (name) => {
+//     if (name) {
+//         return `
+//             <h1>Welcome, ${name}!</h1>
+//         `
+//     }
 
-    return `
-        <h1>Hello!</h1>
-    `
-}
+//     return `
+//         <h1>Hello!</h1>
+//     `
+// }
 
 // Example of a pure function that renders infomation requested from the backend
 const ImageOfTheDay = (apod) => {
@@ -156,6 +149,8 @@ const getImageOfTheDay = (state) => {
 
 // RoverImage API call
 
+
+
 // Remove welcome screen when select rover button is clicked
 function hideWelcome(){
     document.getElementById('welcome').style.display='none';
@@ -179,7 +174,5 @@ function hideSelectionScreen() {
         }
   };
 
-// button.onclick = () => {
-//     hideWelcome();
-//     console.log(button);
+
   

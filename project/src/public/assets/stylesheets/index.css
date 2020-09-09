@@ -118,7 +118,11 @@ footer h4 {
 
 }
 
+/* Rover screen styles */
 
+#showRover {
+  display: none;
+}
 
 /* -------------------  TABLET  --------------------- */
 @media (min-width: 768px) {

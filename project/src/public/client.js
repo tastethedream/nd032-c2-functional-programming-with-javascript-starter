@@ -1,7 +1,8 @@
 let store = {
-    user: { name: "Student" },
     apod: '',
     rovers: ['Curiosity', 'Opportunity', 'Spirit'],
+    photos: '',
+    manifest: ''
 }
 
 // add our markup to the page
@@ -9,11 +10,14 @@ const root = document.getElementById('root');
 
 const roverButtons = document.getElementById('roverButtons');
 
+const showRover = document.getElementById('showRover');
+
 
 const updateStore = (store, newState) => {
     store = Object.assign(store, newState)
     render(root, store)
     renderRoverButtons(roverButtons)
+    renderRoverImage(showRover, store)
 };
 
 const render = async (root, state) => {
@@ -24,11 +28,15 @@ const renderRoverButtons = (roverButtons) => {
     roverButtons.innerHTML = selectionScreen()
 };
 
+const renderRoverImage = async (showRover) => {
+    showRover.innerHTML = roverScreen()
+};
+
 
 // create welcome screen content
 
 const welcomeScreen = (state) => {
-    let { rovers, apod } = state
+    let { apod } = state
 
     return `
         <div id="welcome">
@@ -71,7 +79,7 @@ const selectionScreen = () => {
             <main>
                 <section class="selectionContainer>
                     <div class="buttons">
-                        <button class="roverbutton" id="curiosity" onclick="">Curiosity</button>
+                        <button class="roverbutton" id="curiosity" onclick="hideRoverScreen()">Curiosity</button>
                     </div>    
                 </section>
             </main>
@@ -81,6 +89,23 @@ const selectionScreen = () => {
             </footer>
          </div>      
     `
+};
+
+const roverScreen = () => {
+    //let { photos } = state
+    return `
+    <div id="showRover>
+        <main>
+            <section class="roverContainer>
+                <div class="roverPic">
+                 <h1>Image displayed here</h1> 
+              
+                </div>    
+            </section>
+        </main>
+    
+    </div>      
+`
 };
 
 
@@ -132,6 +157,18 @@ const ImageOfTheDay = (apod) => {
     }
 }
 
+// const RoverOfTheDay = (photos) => {
+
+//     // If image does not already exist, or it is not from today -- request it again
+//     const today = new Date()
+//     const photodate = new Date(photo.date)
+//     console.log(photodate.getDate(), today.getDate());
+
+//     console.log(photodate.getDate() === today.getDate());
+//     if (!photos || photos.date === today.getDate() ) {
+//         getRoverImage(store)
+//     }
+
 // ------------------------------------------------------  API CALLS
 
 // Image of the Day API call
@@ -149,7 +186,14 @@ const getImageOfTheDay = (state) => {
 
 // RoverImage API call
 
+const getRoverImage = (state) => {
+    let { photos } = state
 
+    fetch(`http://localhost:8080/photos`)
+        .then(res => res.json())
+        .then(apod => updateStore(store, { photos }))
+
+};
 
 // Remove welcome screen when select rover button is clicked
 function hideWelcome(){
@@ -174,5 +218,22 @@ function hideSelectionScreen() {
         }
   };
 
+  // Hide Rover screen until required
+function hideRoverScreen() {
+    // get the selection Screen
+    const showScreen = document.getElementById('showRover');
 
+    // get the current value of the screen display property
+    const displaySetting = showScreen.style.display;
+
+    if (displaySetting == 'block') {
+      // if screen is visable hide it
+      showScreen.style.display = 'none';
+    } else {
+      // if screen is hidden. show it
+      showScreen.style.display = 'block';
+        }
+    };
   
+
+

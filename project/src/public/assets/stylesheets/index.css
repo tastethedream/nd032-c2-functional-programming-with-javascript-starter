@@ -30,6 +30,8 @@ main {
   justify-content: center;
 }
 
+
+
 #goToRovers {
   width: auto;
   height: 200px;
@@ -48,8 +50,14 @@ main {
   box-shadow: black;
 }
 
+#selection {
+  display: none;
+}
+
 footer {
-  /* footer styles */
+  font-size: 12px;
+  text-align: center;
+  margin-top: 60px;
 }
 
 /* -------------------  TABLET  --------------------- */

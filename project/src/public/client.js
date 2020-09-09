@@ -56,14 +56,11 @@ const welcomeScreen = (state) => {
                 </section>
                 <div class="buttonContainer">
                     <div class="centre">
-                        <button id="goToRovers" onclick="hideWelcome();displayButtons()">Click here to select your Mars Rover</button>
+                        <button id="goToRovers" onclick="hideWelcome(); hideSelectionScreen()">Click here to select your Mars Rover</button>
                     </div>    
                 </div>
             </main>
         
-            <footer>
-                <h4> Copyright Dawn Rose 2020 </h4>
-            </footer>
          </div>      
     `
 };
@@ -74,7 +71,7 @@ const welcomeScreen = (state) => {
 const selectionScreen = () => {
     
     return `
-        <div id="selection">
+        <div id="selection" class="hidden">
             <header>
                 <h1 class="welcomeTitle">Please Select Your Rover</h1>
             </header>
@@ -163,18 +160,46 @@ function hideWelcome(){
     //alert("choose rover button was clicked");
 };
 
-function displayButtons(){
-    const hideButtons = document.getElementById('selection').innerHTML;
-   if (hideButtons.style.display !== "none"){
-       hideButtons.style.display = "none"
-   } else {
-       hideButtons.style.display = "block";
-   }
-};
+// function unhide(clickedButton, selection){
+//     const hideButtons = document.getElementById('selection');
+//    if (hideButtons){
+//     if(hideButtons.hidden == "hidden"){
+//        hideButtons.hidden = "unhidden";
+//        clickedButton.value = "hide"
+//    } else {
+//        hideButtons.hidden = "hidden";
+//        clickedButton.value = "unhide"
+//         }
+//    }
+// };
 
+
+function hideSelectionScreen() {
+    // get the selection Screen
+    const showScreen = document.getElementById('selection');
+
+    // get the current value of the clock's display property
+    const displaySetting = showScreen.style.display;
+
+    // also get the clock button, so we can change what it says
+    //var clockButton = document.getElementById('clockButton');
+
+    // now toggle the clock and the button text, depending on current state
+    if (displaySetting == 'block') {
+      // clock is visible. hide it
+      showScreen.style.display = 'none';
+      // change button text
+      //clockButton.innerHTML = 'Show clock';
+    }
+    else {
+      // clock is hidden. show it
+      showScreen.style.display = 'block';
+      // change button text
+      //clockButton.innerHTML = 'Hide clock';
+    }
+  }
 
 // button.onclick = () => {
 //     hideWelcome();
 //     console.log(button);
-   
-// };
+  

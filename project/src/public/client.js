@@ -1,9 +1,9 @@
 let store = {
     apod: '',
     rovers: ['Curiosity', 'Opportunity', 'Spirit'],
-    photos: '',
-    manifest: ''
-}
+    photos: [],
+    manifest: null
+};
 
 // add our markup to the page
 const root = document.getElementById('root');
@@ -83,10 +83,6 @@ const selectionScreen = () => {
                     </div>    
                 </section>
             </main>
-        
-            <footer>
-                <h4> Copyright Dawn Rose 2020 </h4>
-            </footer>
          </div>      
     `
 };
@@ -99,6 +95,9 @@ const roverScreen = () => {
             <section class="roverContainer>
                 <div class="roverPic">
                  <h1>Image displayed here</h1> 
+                
+                 <h1>Data displayed here</h1> 
+                 
               
                 </div>    
             </section>

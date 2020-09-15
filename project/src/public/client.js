@@ -13,11 +13,14 @@ const roverButtons = document.getElementById('roverButtons');
 const showRover = document.getElementById('showRover');
 
 
+
+
 const updateStore = (store, newState) => {
     store = Object.assign(store, newState)
     render(root, store)
     renderRoverButtons(roverButtons)
     renderRoverImage(showRover, store)
+
 };
 
 const render = async (root, state) => {
@@ -80,6 +83,8 @@ const selectionScreen = () => {
                 <section class="selectionContainer>
                     <div class="buttons">
                         <button class="roverbutton" id="curiosity" onclick="hideRoverScreen()">Curiosity</button>
+                        <button class="roverbutton" id="opportunity" onclick="hideRoverScreen()">Opportunity</button>
+                        <button class="roverbutton" id="spirit" onclick="hideRoverScreen()">Spirit</button>
                     </div>    
                 </section>
             </main>
@@ -188,9 +193,9 @@ const getImageOfTheDay = (state) => {
 const getRoverImage = (state) => {
     let { photos } = state
 
-    fetch(`http://localhost:8080/photos`)
+    fetch(`http://localhost:8080/rover`)
         .then(res => res.json())
-        .then(apod => updateStore(store, { photos }))
+        .then(rovers => updateStore(store, { photos }))
 
 };
 

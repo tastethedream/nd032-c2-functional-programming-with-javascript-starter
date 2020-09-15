@@ -14,7 +14,7 @@ header {
   background: darkgrey;
   color: white;
   width: auto;
-  height: 100px;
+  height: auto;
 
 }
 
@@ -88,18 +88,18 @@ footer h4 {
 }
 
 .roverbutton {
-  height: 150px;
-  width: 300px;
+  height: 100px;
+  width: 230px;
   font-size: 35px;
   text-align: center;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   font-weight: bold;
-  margin: 50px auto;
+  margin: 50px 50px;
   top: 50%;
   left: 40%;
-  display: block;
+  display: inline-block;
   padding: 0;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-bottom: 30px;
   border: 1px solid;
   box-shadow: 4px 4px 4px #999;

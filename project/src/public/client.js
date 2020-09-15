@@ -13,16 +13,6 @@ const roverButtons = document.getElementById('roverButtons');
 const showRover = document.getElementById('showRover');
 
 
-
-
-const updateStore = (store, newState) => {
-    store = Object.assign(store, newState)
-    render(root, store)
-    renderRoverButtons(roverButtons)
-    renderRoverImage(showRover, store)
-
-};
-
 const render = async (root, state) => {
     root.innerHTML = welcomeScreen(state)
 };
@@ -31,8 +21,15 @@ const renderRoverButtons = (roverButtons) => {
     roverButtons.innerHTML = selectionScreen()
 };
 
-const renderRoverImage = async (showRover) => {
-    showRover.innerHTML = roverScreen()
+const renderRoverImage = async (showRover, state) => {
+    showRover.innerHTML = roverScreen(state)
+};
+
+const updateStore = (store, newState) => {
+    store = Object.assign(store, newState)
+    render(root, store)
+    renderRoverButtons(roverButtons)
+    renderRoverImage(showRover, store)
 };
 
 
@@ -92,18 +89,16 @@ const selectionScreen = () => {
     `
 };
 
-const roverScreen = () => {
-    //let { photos } = state
+const roverScreen = (state) => {
+    let { apod } = state
     return `
     <div id="showRover>
         <main>
             <section class="roverContainer>
                 <div class="roverPic">
+                <h1>Data displayed here</h1> 
                  <h1>Image displayed here</h1> 
-                
-                 <h1>Data displayed here</h1> 
-                 
-              
+                 ${RoverContent(apod)}       
                 </div>    
             </section>
         </main>
@@ -159,19 +154,34 @@ const ImageOfTheDay = (apod) => {
             <p>${apod.image.explanation}</p>
         `)
     }
-}
+};
 
-// const RoverOfTheDay = (photos) => {
+const RoverContent = (apod) => {
 
-//     // If image does not already exist, or it is not from today -- request it again
-//     const today = new Date()
-//     const photodate = new Date(photo.date)
-//     console.log(photodate.getDate(), today.getDate());
+      // If image does not already exist, or it is not from today -- request it again
+    const todays = new Date()
+    const photodates = new Date(apod.date)
+    console.log(photodates.getDate(), todays.getDate());
 
-//     console.log(photodate.getDate() === today.getDate());
-//     if (!photos || photos.date === today.getDate() ) {
-//         getRoverImage(store)
-//     }
+    console.log(photodates.getDate() === todays.getDate());
+    if (!apod || apod.date === todays.getDate() ) {
+        getRoverContent(store)
+    }
+
+    // check if the photo of the day is actually type video!
+    if (apod.media_type === "video") {
+        return (`
+            <p>See today's featured video <a href="${apod.url}">here</a></p>
+            <p>${apod.title}</p>
+            <p>${apod.explanation}</p>
+        `)
+    } else {
+        return (`
+            <img src="${apod.image.url}" height="350px" width="100%" />
+            <p>${apod.image.explanation}</p>
+        `)
+    }
+};
 
 // ------------------------------------------------------  API CALLS
 
@@ -188,14 +198,14 @@ const getImageOfTheDay = (state) => {
 
 // RoverData API call
 
-// RoverImage API call
+//roverImage API call
 
-const getRoverImage = (state) => {
-    let { photos } = state
+const getRoverContent = (state) => {
+    let { apod } = state
 
-    fetch(`http://localhost:8080/rover`)
+    fetch(`http://localhost:8080/apod`)
         .then(res => res.json())
-        .then(rovers => updateStore(store, { photos }))
+        .then(apod => updateStore(store, { apod }))
 
 };
 
@@ -238,6 +248,6 @@ function hideRoverScreen() {
       showScreen.style.display = 'block';
         }
     };
-  
+
 
 

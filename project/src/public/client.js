@@ -1,5 +1,6 @@
 let store = {
     apod: '',
+    rover: '',
     rovers: ['Curiosity', 'Opportunity', 'Spirit'],
     photos: [],
     manifest: null
@@ -90,15 +91,17 @@ const selectionScreen = () => {
 };
 
 const roverScreen = (state) => {
-    let { apod } = state
+    let { rover } = state
     return `
     <div id="showRover>
         <main>
             <section class="roverContainer>
                 <div class="roverPic">
-                <h1>Data displayed here</h1> 
-                 <h1>Image displayed here</h1> 
-                 ${RoverContent(apod)}       
+                <h1>Thank you for choosing Mars Rover:(insert rover name here)</h1> 
+                <h2>Mission Manifest</h2> 
+                <p> specific data from api displayed here</p>
+                 <h2>Image displayed here</h2> 
+                 ${RoverContent(rover)}       
                 </div>    
             </section>
         </main>
@@ -156,31 +159,32 @@ const ImageOfTheDay = (apod) => {
     }
 };
 
-const RoverContent = (apod) => {
+const RoverContent = (rover) => {
 
       // If image does not already exist, or it is not from today -- request it again
     const todays = new Date()
-    const photodates = new Date(apod.date)
+    const photodates = new Date(rover.date)
     console.log(photodates.getDate(), todays.getDate());
 
     console.log(photodates.getDate() === todays.getDate());
-    if (!apod || apod.date === todays.getDate() ) {
+    if (!rover || rover.date === todays.getDate() ) {
         getRoverContent(store)
     }
 
     // check if the photo of the day is actually type video!
-    if (apod.media_type === "video") {
+    // if (rover.media_type === "video") {
+    //     return (`
+    //         <p>See today's featured video <a href="${rover.url}">here</a></p>
+    //         <p>${rover.title}</p>
+    //         <p>${rover.explanation}</p>
+    //     `)
+    // } else {
         return (`
-            <p>See today's featured video <a href="${apod.url}">here</a></p>
-            <p>${apod.title}</p>
-            <p>${apod.explanation}</p>
+            <img src="${rover.roverImage.url}" height="350px" width="100%" />
+             <p>${rover.roverImage.explanation}</p>
+      
         `)
-    } else {
-        return (`
-            <img src="${apod.image.url}" height="350px" width="100%" />
-            <p>${apod.image.explanation}</p>
-        `)
-    }
+    
 };
 
 // ------------------------------------------------------  API CALLS
@@ -201,11 +205,11 @@ const getImageOfTheDay = (state) => {
 //roverImage API call
 
 const getRoverContent = (state) => {
-    let { apod } = state
+    let { rover } = state
 
-    fetch(`http://localhost:8080/apod`)
+    fetch(`http://localhost:8080/rover`)
         .then(res => res.json())
-        .then(apod => updateStore(store, { apod }))
+        .then(rover => updateStore(store, { rover }))
 
 };
 

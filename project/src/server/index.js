@@ -27,15 +27,15 @@ app.get('/apod', async (req, res) => {
 
 // Mars Rover Image API call
 
-// app.get('/photos', async (req, res) => {
-//     try {
-//         let roverImage = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=DEMO_KEY`)
-//             .then(res => res.json())
-//          res.send({ roverImage })
-//     } catch (err) {
-//         console.log('error:', err);
-//     }
-// });
+app.get('/rover', async (req, res) => {
+    try {
+        let roverImage = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&page=2&api_key=DEMO_KEY`)
+            .then(res => res.json())
+         res.send({ roverImage })
+    } catch (err) {
+        console.log('error:', err);
+    }
+});
 
 // // Mars Rover Manifest API call
 

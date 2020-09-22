@@ -1,9 +1,9 @@
 let store = {
     apod: '',
     rover: '',
-    rovers: ['Curiosity', 'Opportunity', 'Spirit'],
+    roverName: ['Curiosity', 'Opportunity', 'Spirit'],
     photos: [],
-    manifest: null
+    data: null
 };
 
 // add our markup to the page
@@ -48,12 +48,7 @@ const welcomeScreen = (state) => {
                 <section>
                     <h3>NASA Image Of The Day!</h3>
                     <p>
-                        One of the most popular websites at NASA is the Astronomy Picture of the Day. In fact, this website is one of
-                         the most popular websites across all federal agencies. It has the popular appeal of a Justin Bieber video.
-                         This endpoint structures the APOD imagery and associated metadata so that it can be repurposed for other
-                        applications. In addition, if the concept_tags parameter is set to True, then keywords derived from the image
-                         explanation are returned. These keywords could be used as auto-generated hashtags for twitter or instagram feeds;
-                        but generally help with discoverability of relevant imagery.
+                        One of the most popular websites at NASA is the Astronomy Picture of the Day. In fact, this website is one of the most popular websites across all federal agencies. It has the popular appeal of a Justin Bieber video.
                     </p>
                     ${ImageOfTheDay(apod)}
                 </section>
@@ -80,7 +75,7 @@ const selectionScreen = () => {
             <main>
                 <section class="selectionContainer>
                     <div class="buttons">
-                        <button class="roverbutton" id="curiosity" onclick="hideRoverScreen()">Curiosity</button>
+                        <button class="roverbutton" id="curiosity" onclick=" hideRoverScreen()">Curiosity</button>
                         <button class="roverbutton" id="opportunity" onclick="hideRoverScreen()">Opportunity</button>
                         <button class="roverbutton" id="spirit" onclick="hideRoverScreen()">Spirit</button>
                     </div>    
@@ -90,30 +85,50 @@ const selectionScreen = () => {
     `
 };
 
-const roverScreen = (state) => {
-    let { rover } = state
-    return `
-    <div id="showRover>
-        <main>
-            <section class="roverContainer>
-                <div class="roverPic">
-                <h1>Thank you for choosing Mars Rover:(insert rover name here)</h1> 
-                <h2>Mission Manifest</h2> 
-                <p> specific data from api displayed here</p>
-                 <h2>Image displayed here</h2> 
-                 ${RoverContent(rover)}       
-                </div>    
-            </section>
-        </main>
-    
-    </div>      
+// Create rover screen content
+
+const roverScreen = () => {
+//    let { rover } = state
+//     return `
+//     <div id="showRover>
+//         <main>
+//             <section class="roverContainer>
+//                 <div class="roverPic">
+//                 <h1>Thank you for choosing Mars Rover:(insert rover name here)</h1> 
+//                 <h2>Mission Manifest</h2> 
+//                 <p> specific data from api displayed here</p>
+//                  <h2>Images displayed here</h2> 
+//                  ${RoverContent(rover)}       
+//                 </div>    
+//             </section>
+//         </main>
+   
+//     </div>      
+// `
+
+return `
+<div id="showRover>
+    <main>
+        <section class="roverContainer>
+            <div class="roverPic">
+            <h1>Thank you for choosing Mars Rover:Dynamic rover name here</h1> 
+            <h2>Mission Manifest</h2> 
+            <p> specific data from api displayed here</p>
+             <h2>Images displayed here</h2> 
+            </div>    
+        </section>
+    </main>
+
+</div>      
 `
+
 };
 
 
 // listening for load event because page should load before any JS is called
 window.addEventListener('load', () => {
-    render(root, store)
+    render(root, store);
+    //renderRoverImage(showRover, store);
 });
 
 // ------------------------------------------------------  COMPONENTS
@@ -145,6 +160,19 @@ const ImageOfTheDay = (apod) => {
     }
 
     // check if the photo of the day is actually type video!
+    // if (apod.media_type === "video") {
+    //     return (`
+    //         <p>See today's featured video <a href="${apod.url}">here</a></p>
+    //         <p>${apod.title}</p>
+    //         <p>${apod.explanation}</p>
+    //     `)
+    // } else {
+    //     return (`
+    //         <img src="${apod.image.url}" height="350px" width="100%" />
+    //         <p>${apod.image.explanation}</p>
+    //     `)
+    // }
+
     if (apod.media_type === "video") {
         return (`
             <p>See today's featured video <a href="${apod.url}">here</a></p>
@@ -153,13 +181,15 @@ const ImageOfTheDay = (apod) => {
         `)
     } else {
         return (`
-            <img src="${apod.image.url}" height="350px" width="100%" />
-            <p>${apod.image.explanation}</p>
+            <P>Image of the day shown here</p>
+            <p>Explanation shown here</p>
         `)
     }
 };
 
 const RoverContent = (rover) => {
+
+    //let roverImage = JSON.parse(JSON.stringify(rover));
 
       // If image does not already exist, or it is not from today -- request it again
     const todays = new Date()
@@ -169,7 +199,26 @@ const RoverContent = (rover) => {
     console.log(photodates.getDate() === todays.getDate());
     if (!rover || rover.date === todays.getDate() ) {
         getRoverContent(store)
+        console.log("rover content");
     }
+
+    if (apod.media_type === "video") {
+        return (`
+            <p>See today's featured video <a href="${apod.url}">here</a></p>
+            <p>${apod.title}</p>
+            <p>${apod.explanation}</p>
+        `)
+    } else {
+        return (`
+            <P>Rover manifest shown here</p>
+            <p>Latest rover images shown here</p>
+          
+        `);
+        
+    }
+
+};
+
 
     // check if the photo of the day is actually type video!
     // if (rover.media_type === "video") {
@@ -179,19 +228,19 @@ const RoverContent = (rover) => {
     //         <p>${rover.explanation}</p>
     //     `)
     // } else {
-        return (`
-            <img src="${rover.roverImage.url}" height="350px" width="100%" />
-             <p>${rover.roverImage.explanation}</p>
+        // return (`
+        //     <img src="${rover.roverImage.url}" height="350px" width="100%" />
+            
       
-        `)
+        // `)
     
-};
+
 
 // ------------------------------------------------------  API CALLS
 
 // Image of the Day API call
-const getImageOfTheDay = (state) => {
-    let { apod } = state
+const getImageOfTheDay = () => {
+    //let { apod } = state
 
     fetch(`http://localhost:8080/apod`)
         .then(res => res.json())
@@ -205,12 +254,18 @@ const getImageOfTheDay = (state) => {
 //roverImage API call
 
 const getRoverContent = (state) => {
-    let { rover } = state
-
-    fetch(`http://localhost:8080/rover`)
+	let { rover } = state
+	console.log(state);
+    //fetch(`http://localhost:8080/rover/${state}`)
+    fetch(`http://localhost:8080/rover/curiosity`)
         .then(res => res.json())
         .then(rover => updateStore(store, { rover }))
-
+		console.log(`client.js getRoverContent: ${rover.photos}`);
+			// let a = data.data.photos
+			// const newState = store.set("data", a)
+			// updateStore(store, newState)
+			// processData(newState)
+	
 };
 
 // Remove welcome screen when select rover button is clicked
@@ -235,6 +290,7 @@ function hideSelectionScreen() {
       showScreen.style.display = 'block';
         }
   };
+
 
   // Hide Rover screen until required
 function hideRoverScreen() {

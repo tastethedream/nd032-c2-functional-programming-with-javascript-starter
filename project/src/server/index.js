@@ -3,6 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const fetch = require('node-fetch')
 const path = require('path')
+const { log } = require('console')
 
 
 const app = express()
@@ -20,7 +21,7 @@ app.get('/apod', async (req, res) => {
     try {
         let image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY`)
             .then(res => res.json())
-            res.send({ image })
+           return res.send({ image })
     } catch (err) {
         console.log('error:', err);
 
@@ -29,28 +30,29 @@ app.get('/apod', async (req, res) => {
 
 // Mars Rover Image API call
 
-// app.get('/rover', async (req, res) => {
+app.get('/rover', async (req, res) => {
+    try {
+        let roverImage = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&page=2&api_key=DEMO_KEY`)
+            .then(res => res.json())
+          return res.send({ roverImage });
+          
+    } catch (err) {
+        console.log('error:', err);
+    }
+});
+
+// app.get('/rover/:roverName', async (req, res) => {
 //     try {
-//         let roverImage = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&page=2&api_key=DEMO_KEY`)
-//             .then(res => res.json())
-//          res.send({ roverImage })
+//         let name = req.params['RoverName']
+//         console.log(name)
+//         let roverImage = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${req.query.RoverName}/latest_photos?api_key=${process.env.API_KEY}`)
+//             .then(res => res.json());
+     
+//        return res.send({ roverImage });
 //     } catch (err) {
 //         console.log('error:', err);
 //     }
-// });
-
-app.get('/rover/:roverName', async (req, res) => {
-    try {
-        let name = req.params['roverName']
-        console.log(name)
-        let roverImage = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${name}/photos?sol=10&api_key=DEMO_KEY`)
-            .then(res => res.json());
-        console.log(`index.js rover api call ${roverImage}`);    
-        res.send({ roverImage });
-    } catch (err) {S
-        console.log('error:', err);
-    }
-})
+// })
 
 // // Mars Rover Manifest API call
 

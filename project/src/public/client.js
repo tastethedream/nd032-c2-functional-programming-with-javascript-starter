@@ -212,9 +212,9 @@ const RoverContent = (rover) => {
 
     //const landingDate = new Date(rover.landing_date)
     //const launchDate = rover.launch_date;
-    getRoverContent(store)
+   getRoverContent()
     const roverName = rover.name;
-    console.log(rover);
+  
     console.log(roverName);
 
     //let roverImage = JSON.parse(JSON.stringify(rover));

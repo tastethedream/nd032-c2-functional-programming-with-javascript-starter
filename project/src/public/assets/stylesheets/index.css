@@ -28,7 +28,12 @@ main {
   padding: 20px;
 }
 
- h3 {
+ h2 {
+  text-align: center;
+}
+
+
+h3 {
   text-align: center;
 }
 
@@ -122,6 +127,15 @@ footer h4 {
 
 #showRover {
   display: none;
+}
+
+ .manifest {
+  text-align: center;
+}
+
+li {
+  display: block;
+  line-height: 2;
 }
 
 /* -------------------  TABLET  --------------------- */

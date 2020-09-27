@@ -19,7 +19,8 @@ app.use('/', express.static(path.join(__dirname, '../public')))
 // Image of the day API call
 app.get('/apod', async (req, res) => {
     try {
-        let image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY`)
+        console.log(process.env.API_KEY);
+        let image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`)
             .then(res => res.json())
            return res.send({ image })
     } catch (err) {
@@ -32,7 +33,7 @@ app.get('/apod', async (req, res) => {
 
 app.get('/rover', async (req, res) => {
     try {
-        let roverImage = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&page=2&api_key=DEMO_KEY`)
+        let roverImage = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&page=2&api_key=${process.env.API_KEY}`)
             .then(res => res.json())
           return res.send({ roverImage });
           

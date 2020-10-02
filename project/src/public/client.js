@@ -2,10 +2,18 @@
 
 let store = {
     apod: '',
-    rover: '',
+    //rover: '',
+    //roverName: ['Curiosity', 'Opportunity', 'Spirit'],
+    //photos: [],
+    //data: null
+};
+
+let roverStore ={
+    marsRover: '',
     roverName: ['Curiosity', 'Opportunity', 'Spirit'],
     photos: [],
     data: null
+
 };
 
 // const map = Immutable.Map({
@@ -40,7 +48,14 @@ const updateStore = (store, newState) => {
     store = Object.assign(store, newState)
     render(root, store)
     renderRoverButtons(roverButtons)
-    renderRoverImage(showRover, store)
+    renderRoverImage(showRover)
+};
+
+const updateRoverStore = (roverStore, newstate) => {
+    roverStore = Object.assign(roverStore, newstate)
+    //render(root, store)
+    //renderRoverButtons(roverButtons)
+    //renderRoverImage(showRover, roverStore)
 };
 
 
@@ -85,7 +100,7 @@ const selectionScreen = () => {
             <main>
                 <section class="selectionContainer>
                     <div class="buttons">
-                        <button class="roverbutton" id="curiosity" onclick=" hideRoverScreen()">Curiosity</button>
+                        <button class="roverbutton" id="curiosity" onclick="hideRoverScreen();getRoverContent()">Curiosity</button>
                         <button class="roverbutton" id="opportunity" onclick="hideRoverScreen()">Opportunity</button>
                         <button class="roverbutton" id="spirit" onclick="hideRoverScreen()">Spirit</button>
                     </div>    
@@ -97,8 +112,10 @@ const selectionScreen = () => {
 
 // Create rover screen content
 
-const roverScreen = (state) => {
-   let { rover } = state
+const roverScreen = (marsRover) => {
+    //alert("roverScreen")
+  
+   //let { rover } = state
 //     return `
 //     <div id="showRover>
 //         <main>
@@ -114,28 +131,29 @@ const roverScreen = (state) => {
 //         </main>
    
 //     </div>      
+if (!marsRover) {
+    getRoverContent(store)
+}
 // `
 
 return `
-<div id="showRover>
+<div id="roverData">
     <main>
         <section class="roverContainer">
             <div class="roverPic">
-            <h1>Thank you for choosing Mars Rover:add dynamic rover name here</h1> 
+            <h1>Thank you for choosing Mars Rover:$?????</h1> 
           
             <h2>Mission Manifest</h2> 
             <ul class="manifest">
-                <li> Launch Date: insert api data here </li>
-                <li> Landing Date: insert api data here </li>
-                <li> Rover Status: insert api data here </li>           
+                <li> Launch Date: ????? </li>
+                <li> Landing Date:????</li>
+                <li> Rover Status: ???? </li>           
             </ul>
 
             <h2>Rover Images</h2> 
             <h3>insert Images from api here </h> 
-            ${RoverContent(rover)}
-       
            
-          
+           
             </div>    
         </section>
     </main>
@@ -144,6 +162,13 @@ return `
 `
 
 };
+
+/* <p>Mars ID: ${mars.response.photos[0].id}</p>
+<p>Mars launch date: ${mars.response.photos[0].rover.launch_date}</p>
+<p>Mars landing date: ${mars.response.photos[0].rover.landing_date}</p>
+<p>Mars status: ${mars.response.photos[0].rover.status}</p>
+<img src="${mars.response.photos[0].img_src}" height="350px" width="100%" />
+<p>Mars image date: ${mars.response.photos[0].earth_date}</p> */
 
 
 // listening for load event because page should load before any JS is called
@@ -208,18 +233,11 @@ const ImageOfTheDay = (apod) => {
     // }
 };
 
-const RoverContent = (rover) => {
+const RoverContent = (marsRover) => {
 
-    //const landingDate = new Date(rover.landing_date)
-    //const launchDate = rover.launch_date;
-   getRoverContent()
-    const roverName = rover.name;
   
-    console.log(roverName);
 
-    //let roverImage = JSON.parse(JSON.stringify(rover));
-
-      // If image does not already exist, or it is not from today -- request it again
+      //If image does not already exist, or it is not from today -- request it again
     // const todays = new Date()
     // const photodates = new Date(rover.date)
     // console.log(photodates.getDate(), todays.getDate());
@@ -230,12 +248,12 @@ const RoverContent = (rover) => {
     //     console.log("rover content");
     
 
-    // // if (apod.media_type === "video") {
-    // //     return (`
-    // //         <p>See today's featured video <a href="${apod.url}">here</a></p>
-    // //         <p>${apod.title}</p>
-    // //         <p>${apod.explanation}</p>
-    // //     `)
+    // if (apod.media_type === "video") {
+    //     return (`
+    //         <p>See today's featured video <a href="${apod.url}">here</a></p>
+    //         <p>${apod.title}</p>
+    //         <p>${apod.explanation}</p>
+    //     `)
     // } else {
     //     return (`
     //         <P>Rover manifest shown here</p>
@@ -303,12 +321,21 @@ const getImageOfTheDay = () => {
 // 			// const newState = store.set("data", a)
 // 			// updateStore(store, newState)
 // 			// processData(newState)
-const getRoverContent = () => {
+const getRoverContent = (state) => {
+    let { marsRover } = state
     fetch(`http://localhost:8080/rover`)
         .then(res => res.json())
-        .then(rover => updateStore(store, { rover }))
+        .then(marsRover => updateRoverStore(roverStore, { marsRover }))
 
 };
+
+// const getImageOfTheDayRover = (state) => {
+//     let { mars } = state
+
+//     fetch(`http://localhost:8080/rover`)
+//         .then(res => res.json())
+//         .then(mars => updateStoreRover(store, { mars }))
+// }
 
 // Remove welcome screen when select rover button is clicked
 function hideWelcome(){
@@ -337,6 +364,7 @@ function hideSelectionScreen() {
   // Hide Rover screen until required
 function hideRoverScreen() {
     // get the selection Screen
+    alert("hideRoverScreen")
     const showScreen = document.getElementById('showRover');
 
     // get the current value of the screen display property
@@ -348,8 +376,8 @@ function hideRoverScreen() {
     } else {
       // if screen is hidden. show it
       showScreen.style.display = 'block';
-        }
-    };
+    }
+};
 
 
 

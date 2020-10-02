@@ -11,7 +11,6 @@ const port = 8080
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-
 app.use('/', express.static(path.join(__dirname, '../public')))
 
 // your API calls
@@ -31,16 +30,16 @@ app.get('/apod', async (req, res) => {
 
 // Mars Rover Image API call
 
-app.get('/rover', async (req, res) => {
-    try {
-        let roverImage = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&page=2&api_key=${process.env.API_KEY}`)
-            .then(res => res.json())
-          return res.send({ roverImage });
+// app.get('/rover', async (req, res) => {
+//     try {
+//         let roverImage = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&page=2&api_key=${process.env.API_KEY}`)
+//             .then(res => res.json())
+//           return res.send({ roverImage });
           
-    } catch (err) {
-        console.log('error:', err);
-    }
-});
+//     } catch (err) {
+//         console.log('error:', err);
+//     }
+// });
 
 // app.get('/rover/:roverName', async (req, res) => {
 //     try {
@@ -55,17 +54,18 @@ app.get('/rover', async (req, res) => {
 //     }
 // })
 
-// // Mars Rover Manifest API call
+app.get('/rover', async (req, res) => {
+    try {
+        let response = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=${process.env.API_KEY}`)
+            .then(res => { return res.json() })
 
-// app.get('/info', async (req, res) => {
-//     try {
-//         let manifest = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=${process.env.API_KEY}`)
-//             .then(res => res.json())
-//             res.send({ manifest })
-//     } catch (err) {
-//         console.log('error:', err);
-//     }
-// })
+        console.log(`Response: ${response.photos[0].id}`)
+
+        res.send({ response })
+    } catch (err) {
+        console.log('error:', err);
+    }
+})
 
 
 app.listen(port, () => console.log(`You are live on port ${port}!`))

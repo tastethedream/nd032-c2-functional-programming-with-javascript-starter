@@ -26,7 +26,7 @@ const showRover = document.getElementById('showRover');
 // listening for load event because page should load before any JS is called
 window.addEventListener('load', () => {
     render(root, store);
-    renderRoverImage(showRover, store);
+    renderRover(showRover, store);
 });
 
 
@@ -38,7 +38,7 @@ const renderRoverButtons = (roverButtons) => {
     roverButtons.innerHTML = selectionScreen()
 };
 
-const renderRoverImage = async (showRover, state) => {
+const renderRover = async (showRover, state) => {
     showRover.innerHTML = roverScreen(state)
 };
 
@@ -53,7 +53,7 @@ const updateRoverStore = (store, newstate) => {
     store = Object.assign(store, newstate)
     //render(root, store)
     //renderRoverButtons(roverButtons)
-    renderRoverImage(showRover, store)
+    renderRover(showRover, store)
 };
 
 
@@ -89,6 +89,10 @@ const welcomeScreen = (state) => {
 
 // create selection screen content
 
+function curiosityButton() {
+    hideRoverScreen()
+    getCuriosityContent()
+}
 const selectionScreen = () => {
         return `
         <div id="selection" class="hidden">
@@ -98,9 +102,9 @@ const selectionScreen = () => {
             <main>
                 <section class="selectionContainer>
                     <div class="buttons">
-                        <button class="roverbutton" id="curiosity" onclick="hideRoverScreen();getRoverContent()">Curiosity</button>
-                        <button class="roverbutton" id="opportunity" onclick="hideRoverScreen()">Opportunity</button>
-                        <button class="roverbutton" id="spirit" onclick="hideRoverScreen()">Spirit</button>
+                        <button class="roverbutton"id="curiosity"onclick="curiosityButton()">Curiosity</button>
+                        <button class="roverbutton" id="opportunity" onclick="hideRoverScreen();getOpportunityContent()">Opportunity</button>
+                        <button class="roverbutton" id="spirit" onclick="hideRoverScreen();getSpiritContent()">Spirit</button>
                     </div>    
                 </section>
             </main>
@@ -194,7 +198,8 @@ const ImageOfTheDay = (apod) => {
 const RoverContent = (marsRover) => {
 
     if (!marsRover) {
-        getRoverContent(store)
+        getCuriosityContent(store)
+       
     }
   
     
@@ -214,7 +219,7 @@ const RoverContent = (marsRover) => {
     
                 <h2>Rover Images</h2> 
                 <img src="${marsRover.response.photos[0].img_src}" height="350px" width="100%" />
-               
+                <p>Mars image date: ${marsRover.response.photos[0].earth_date}</p>
                
                 </div>    
             </section>
@@ -272,9 +277,25 @@ const getImageOfTheDay = (state) => {
 // 			// const newState = store.set("data", a)
 // 			// updateStore(store, newState)
 // 			// processData(newState)
-const getRoverContent = (state) => {
+const getCuriosityContent = (state) => {
     let { marsRover } = state
-    fetch(`http://localhost:8080/rover`)
+    fetch(`http://localhost:8080/curiosity`)
+        .then(res => res.json())
+        .then(marsRover => updateRoverStore(store, { marsRover }))
+
+};
+
+const getOpportunityContent = (state) => {
+    let { marsRover } = state
+    fetch(`http://localhost:8080/opportunity`)
+        .then(res => res.json())
+        .then(marsRover => updateRoverStore(store, { marsRover }))
+
+};
+
+const getSpiritContent = (state) => {
+    let { marsRover } = state
+    fetch(`http://localhost:8080/spirit`)
         .then(res => res.json())
         .then(marsRover => updateRoverStore(store, { marsRover }))
 

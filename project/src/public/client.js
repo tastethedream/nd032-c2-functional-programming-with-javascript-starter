@@ -2,18 +2,10 @@
 
 let store = {
     apod: '',
-    //rover: '',
-    //roverName: ['Curiosity', 'Opportunity', 'Spirit'],
-    //photos: [],
-    //data: null
-};
-
-let roverStore ={
     marsRover: '',
-    roverName: ['Curiosity', 'Opportunity', 'Spirit'],
-    photos: [],
-    data: null
-
+    rovers: ['Curiosity', 'Opportunity', 'Spirit'],
+   // photos: [],
+    //data: null
 };
 
 // const map = Immutable.Map({
@@ -30,6 +22,12 @@ const root = document.getElementById('root');
 const roverButtons = document.getElementById('roverButtons');
 
 const showRover = document.getElementById('showRover');
+
+// listening for load event because page should load before any JS is called
+window.addEventListener('load', () => {
+    render(root, store);
+    renderRoverImage(showRover, store);
+});
 
 
 const render = async (root, state) => {
@@ -48,14 +46,14 @@ const updateStore = (store, newState) => {
     store = Object.assign(store, newState)
     render(root, store)
     renderRoverButtons(roverButtons)
-    renderRoverImage(showRover)
+    //renderRoverImage(showRover)
 };
 
-const updateRoverStore = (roverStore, newstate) => {
-    roverStore = Object.assign(roverStore, newstate)
+const updateRoverStore = (store, newstate) => {
+    store = Object.assign(store, newstate)
     //render(root, store)
     //renderRoverButtons(roverButtons)
-    //renderRoverImage(showRover, roverStore)
+    renderRoverImage(showRover, store)
 };
 
 
@@ -112,7 +110,19 @@ const selectionScreen = () => {
 
 // Create rover screen content
 
-const roverScreen = (marsRover) => {
+const roverScreen = (state) => {
+
+    let { rovers, apod, marsRover } = state
+
+    return `
+        <main>
+            <section>
+                <h3>Put things on the page!</h3>
+                ${RoverContent(marsRover)}
+            </section>
+        </main>
+    `
+  }
     //alert("roverScreen")
   
    //let { rover } = state
@@ -131,51 +141,10 @@ const roverScreen = (marsRover) => {
 //         </main>
    
 //     </div>      
-if (!marsRover) {
-    getRoverContent(store)
-}
-// `
-
-return `
-<div id="roverData">
-    <main>
-        <section class="roverContainer">
-            <div class="roverPic">
-            <h1>Thank you for choosing Mars Rover:$?????</h1> 
-          
-            <h2>Mission Manifest</h2> 
-            <ul class="manifest">
-                <li> Launch Date: ????? </li>
-                <li> Landing Date:????</li>
-                <li> Rover Status: ???? </li>           
-            </ul>
-
-            <h2>Rover Images</h2> 
-            <h3>insert Images from api here </h> 
-           
-           
-            </div>    
-        </section>
-    </main>
-
-</div>      
-`
-
-};
-
-/* <p>Mars ID: ${mars.response.photos[0].id}</p>
-<p>Mars launch date: ${mars.response.photos[0].rover.launch_date}</p>
-<p>Mars landing date: ${mars.response.photos[0].rover.landing_date}</p>
-<p>Mars status: ${mars.response.photos[0].rover.status}</p>
-<img src="${mars.response.photos[0].img_src}" height="350px" width="100%" />
-<p>Mars image date: ${mars.response.photos[0].earth_date}</p> */
 
 
-// listening for load event because page should load before any JS is called
-window.addEventListener('load', () => {
-    render(root, store);
-    //renderRoverImage(showRover, store);
-});
+
+
 
 // ------------------------------------------------------  COMPONENTS
 
@@ -215,79 +184,63 @@ const ImageOfTheDay = (apod) => {
     } else {
         return (`
             <img src="${apod.image.url}" height="350px" width="100%" />
+            <p>${apod.image.title}</p>
+            <p>${apod.image.copyright}</p>
             <p>${apod.image.explanation}</p>
         `)
     }
-
-    // if (apod.media_type === "video") {
-    //     return (`
-    //         <p>See today's featured video <a href="${apod.url}">here</a></p>
-    //         <p>${apod.title}</p>
-    //         <p>${apod.explanation}</p>
-    //     `)
-    // } else {
-    //     return (`
-    //         <P>Image of the day shown here</p>
-    //         <p>Explanation shown here</p>
-    //     `)
-    // }
 };
 
 const RoverContent = (marsRover) => {
 
+    if (!marsRover) {
+        getRoverContent(store)
+    }
   
-
-      //If image does not already exist, or it is not from today -- request it again
-    // const todays = new Date()
-    // const photodates = new Date(rover.date)
-    // console.log(photodates.getDate(), todays.getDate());
-
-    // console.log(photodates.getDate() === todays.getDate());
-    // if (!rover || rover.date === todays.getDate() ) {
-    //     getRoverContent(store)
-    //     console.log("rover content");
+    
+    return `
+    <div id="roverData">
+        <main>
+            <section class="roverContainer">
+                <div class="roverPic">
+                <h1>Thank you for choosing Mars Rover: ${marsRover.response.photos[0].rover.name}</h1> 
+              
+                <h2>Mission Manifest</h2> 
+                <ul class="manifest">
+                    <li> Launch Date: ${marsRover.response.photos[0].rover.launch_date}</li>
+                    <li> Landing Date: ${marsRover.response.photos[0].rover.landing_date}</li>
+                    <li> Rover Status:  ${marsRover.response.photos[0].rover.status} </li>           
+                </ul>
+    
+                <h2>Rover Images</h2> 
+                <img src="${marsRover.response.photos[0].img_src}" height="350px" width="100%" />
+               
+               
+                </div>    
+            </section>
+        </main>
+    
+    </div>      
+    `
+    
+    };
     
 
-    // if (apod.media_type === "video") {
-    //     return (`
-    //         <p>See today's featured video <a href="${apod.url}">here</a></p>
-    //         <p>${apod.title}</p>
-    //         <p>${apod.explanation}</p>
-    //     `)
-    // } else {
-    //     return (`
-    //         <P>Rover manifest shown here</p>
-    //         <p>Latest rover images shown here</p>
-          
-    //     `);
-        
-    // }
-    return (`hello`)
-
-};
-
-
-    // check if the photo of the day is actually type video!
-    // if (rover.media_type === "video") {
-    //     return (`
-    //         <p>See today's featured video <a href="${rover.url}">here</a></p>
-    //         <p>${rover.title}</p>
-    //         <p>${rover.explanation}</p>
-    //     `)
-    // } else {
-        // return (`
-        //     <img src="${rover.roverImage.url}" height="350px" width="100%" />
-            
-      
-        // `)
+    
+/* <p>Mars ID: ${mars.response.photos[0].id}</p>
+<p>Mars launch date: ${mars.response.photos[0].rover.launch_date}</p>
+<p>Mars landing date: ${mars.response.photos[0].rover.landing_date}</p>
+<p>Mars status: ${mars.response.photos[0].rover.status}</p>
+<img src="${mars.response.photos[0].img_src}" height="350px" width="100%" />
+<p>Mars image date: ${mars.response.photos[0].earth_date}</p> */
     
 
 
 // ------------------------------------------------------  API CALLS
 
 // Image of the Day API call
-const getImageOfTheDay = () => {
-    //let { apod } = state
+const getImageOfTheDay = (state) => {
+    let { apod } = state
 
     fetch(`http://localhost:8080/apod`)
         .then(res => res.json())
@@ -307,8 +260,6 @@ const getImageOfTheDay = () => {
 
 // RoverData API call
 
-//roverImage API call
-
 // const getRoverContent = (state) => {
 // 	let { rover } = state
 // 	console.log(state);
@@ -325,7 +276,7 @@ const getRoverContent = (state) => {
     let { marsRover } = state
     fetch(`http://localhost:8080/rover`)
         .then(res => res.json())
-        .then(marsRover => updateRoverStore(roverStore, { marsRover }))
+        .then(marsRover => updateRoverStore(store, { marsRover }))
 
 };
 

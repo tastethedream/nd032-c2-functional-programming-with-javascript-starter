@@ -1,5 +1,3 @@
-
-
 let store = {
     apod: '',
     marsRover: '',
@@ -19,14 +17,10 @@ let store = {
 // add our markup to the page
 const root = document.getElementById('root');
 
-const roverButtons = document.getElementById('roverButtons');
-
-const showRover = document.getElementById('showRover');
-
 // listening for load event because page should load before any JS is called
 window.addEventListener('load', () => {
     render(root, store);
-    renderRover(showRover, store);
+    //renderRover(showRover, store);
 });
 
 
@@ -34,12 +28,9 @@ const render = async (root, state) => {
     root.innerHTML = welcomeScreen(state)
 };
 
-const renderRoverButtons = (roverButtons) => {
+const renderRoverButtons = () => {
+    const roverButtons = document.getElementById('roverButtons');
     roverButtons.innerHTML = selectionScreen()
-};
-
-const renderRover = async (showRover, state) => {
-    showRover.innerHTML = roverScreen(state)
 };
 
 const updateStore = (store, newState) => {
@@ -51,14 +42,18 @@ const updateStore = (store, newState) => {
 
 const updateRoverStore = (store, newstate) => {
     store = Object.assign(store, newstate)
+    const showRover = document.getElementById('showRover');
+    console.log(`updateRoverStore: ${showRover}`)
     //render(root, store)
     //renderRoverButtons(roverButtons)
     renderRover(showRover, store)
 };
 
+const renderRover = async (showRover, state) => {
+  showRover.innerHTML = roverScreen(state)
+};
 
 // create welcome screen content
-
 const welcomeScreen = (state) => {
     let { apod } = state
 
@@ -88,11 +83,6 @@ const welcomeScreen = (state) => {
 
 
 // create selection screen content
-
-function curiosityButton() {
-    hideRoverScreen()
-    getCuriosityContent()
-}
 const selectionScreen = () => {
         return `
         <div id="selection" class="hidden">
@@ -103,8 +93,8 @@ const selectionScreen = () => {
                 <section class="selectionContainer>
                     <div class="buttons">
                         <button class="roverbutton"id="curiosity"onclick="curiosityButton()">Curiosity</button>
-                        <button class="roverbutton" id="opportunity" onclick="hideRoverScreen();getOpportunityContent()">Opportunity</button>
-                        <button class="roverbutton" id="spirit" onclick="hideRoverScreen();getSpiritContent()">Spirit</button>
+                        <button class="roverbutton" id="opportunity" onclick="opportunityButton()">Opportunity</button>
+                        <button class="roverbutton" id="spirit" onclick="spiritButton()">Spirit</button>
                     </div>    
                 </section>
             </main>
@@ -112,59 +102,67 @@ const selectionScreen = () => {
     `
 };
 
-// Create rover screen content
+function curiosityButton() {
+    hideRoverScreen()
+    getCuriosityContent(store)
+}
 
+function opportunityButton() {
+    hideRoverScreen()
+    getOpportunityContent(store)
+}
+
+function spiritButton() {
+    hideRoverScreen()
+    getSpiritContent(store)
+}
+
+// Hide Rover screen until required
+function hideRoverScreen() {
+    // get the selection Screen
+    alert("hideRoverScreen")
+    const showScreen = document.getElementById('showRover');
+    // get the current value of the screen display property
+    const displaySetting = showScreen.style.display;
+    if (displaySetting == 'block') {
+      // if screen is visable hide it
+      showScreen.style.display = 'none';
+    } else {
+      // if screen is hidden. show it
+      showScreen.style.display = 'block';
+    }
+}
+
+// Create rover screen content
 const roverScreen = (state) => {
 
     let { rovers, apod, marsRover } = state
 
+    // return `
+    //     <main>
+    //         <section>
+    //             <h3>Put things on the page!</h3>
+    //             ${RoverContent(marsRover)}
+    //         </section>
+    //     </main>
+    // `
+
     return `
-        <main>
-            <section>
-                <h3>Put things on the page!</h3>
-                ${RoverContent(marsRover)}
-            </section>
-        </main>
+        <h3>Put things on the page!</h3>   
+        <h3>You have selected: ${marsRover.response.photos[0].rover.name}</h3>   
+        <h2>Mission Manifest</h2> 
+        <ul class="manifest">
+            <li> Launch Date: ${marsRover.response.photos[0].rover.launch_date}</li>
+            <li> Landing Date: ${marsRover.response.photos[0].rover.landing_date}</li>
+            <li> Rover Status:  ${marsRover.response.photos[0].rover.status} </li>           
+        </ul>
+        <h2>Rover Images</h2> 
+        <img src="${marsRover.response.photos[0].img_src}" height="350px" width="100%" />
+
     `
   }
-    //alert("roverScreen")
-  
-   //let { rover } = state
-//     return `
-//     <div id="showRover>
-//         <main>
-//             <section class="roverContainer>
-//                 <div class="roverPic">
-//                 <h1>Thank you for choosing Mars Rover:(insert rover name here)</h1> 
-//                 <h2>Mission Manifest</h2> 
-//                 <p> specific data from api displayed here</p>
-//                  <h2>Images displayed here</h2> 
-//                  ${RoverContent(rover)}       
-//                 </div>    
-//             </section>
-//         </main>
-   
-//     </div>      
-
-
-
-
 
 // ------------------------------------------------------  COMPONENTS
-
-// Pure function that renders conditional information -- THIS IS JUST AN EXAMPLE, you can delete it.
-// const Greeting = (name) => {
-//     if (name) {
-//         return `
-//             <h1>Welcome, ${name}!</h1>
-//         `
-//     }
-
-//     return `
-//         <h1>Hello!</h1>
-//     `
-// }
-
 // Example of a pure function that renders infomation requested from the backend
 const ImageOfTheDay = (apod) => {
 
@@ -198,11 +196,11 @@ const ImageOfTheDay = (apod) => {
 const RoverContent = (marsRover) => {
 
     if (!marsRover) {
+        //alert("curiosity was clicked")
         getCuriosityContent(store)
        
     }
-  
-    
+      
     return `
     <div id="roverData">
         <main>
@@ -226,20 +224,9 @@ const RoverContent = (marsRover) => {
         </main>
     
     </div>      
-    `
+    `  
+};
     
-    };
-    
-
-    
-/* <p>Mars ID: ${mars.response.photos[0].id}</p>
-<p>Mars launch date: ${mars.response.photos[0].rover.launch_date}</p>
-<p>Mars landing date: ${mars.response.photos[0].rover.landing_date}</p>
-<p>Mars status: ${mars.response.photos[0].rover.status}</p>
-<img src="${mars.response.photos[0].img_src}" height="350px" width="100%" />
-<p>Mars image date: ${mars.response.photos[0].earth_date}</p> */
-    
-
 
 // ------------------------------------------------------  API CALLS
 
@@ -250,6 +237,34 @@ const getImageOfTheDay = (state) => {
     fetch(`http://localhost:8080/apod`)
         .then(res => res.json())
         .then(apod => updateStore(store, { apod }))
+
+};
+
+
+const getCuriosityContent = (state) => {
+    let { marsRover } = state
+
+    fetch(`http://localhost:8080/curiosity`)
+        .then(res => res.json())
+        .then(marsRover => updateRoverStore(store, { marsRover }))
+
+};
+
+const getOpportunityContent = (state) => {
+    let { marsRover } = state
+
+    fetch(`http://localhost:8080/opportunity`)
+        .then(res => res.json())
+        .then(marsRover => updateRoverStore(store, { marsRover }))
+
+};
+
+const getSpiritContent = (state) => {
+    let { marsRover } = state
+
+    fetch(`http://localhost:8080/spirit`)
+        .then(res => res.json())
+        .then(marsRover => updateRoverStore(store, { marsRover }))
 
 };
 
@@ -277,29 +292,7 @@ const getImageOfTheDay = (state) => {
 // 			// const newState = store.set("data", a)
 // 			// updateStore(store, newState)
 // 			// processData(newState)
-const getCuriosityContent = (state) => {
-    let { marsRover } = state
-    fetch(`http://localhost:8080/curiosity`)
-        .then(res => res.json())
-        .then(marsRover => updateRoverStore(store, { marsRover }))
 
-};
-
-const getOpportunityContent = (state) => {
-    let { marsRover } = state
-    fetch(`http://localhost:8080/opportunity`)
-        .then(res => res.json())
-        .then(marsRover => updateRoverStore(store, { marsRover }))
-
-};
-
-const getSpiritContent = (state) => {
-    let { marsRover } = state
-    fetch(`http://localhost:8080/spirit`)
-        .then(res => res.json())
-        .then(marsRover => updateRoverStore(store, { marsRover }))
-
-};
 
 // const getImageOfTheDayRover = (state) => {
 //     let { mars } = state
@@ -311,7 +304,7 @@ const getSpiritContent = (state) => {
 
 // Remove welcome screen when select rover button is clicked
 function hideWelcome(){
-    document.getElementById('welcome').style.display='none';
+    document.getElementById('welcome').style.display ='none';
        //alert("choose rover button was clicked");
 };
 
@@ -331,25 +324,3 @@ function hideSelectionScreen() {
       showScreen.style.display = 'block';
         }
   };
-
-
-  // Hide Rover screen until required
-function hideRoverScreen() {
-    // get the selection Screen
-    alert("hideRoverScreen")
-    const showScreen = document.getElementById('showRover');
-
-    // get the current value of the screen display property
-    const displaySetting = showScreen.style.display;
-
-    if (displaySetting == 'block') {
-      // if screen is visable hide it
-      showScreen.style.display = 'none';
-    } else {
-      // if screen is hidden. show it
-      showScreen.style.display = 'block';
-    }
-};
-
-
-

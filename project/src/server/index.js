@@ -59,7 +59,7 @@ app.get('/curiosity', async (req, res) => {
         let response = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=${process.env.API_KEY}`)
             .then(res => { return res.json() })
 
-        console.log(`Response: ${response.photos[0].id}`)
+        console.log(`Response curiosity: ${response.photos[0].id}`)
 
         res.send({ response })
     } catch (err) {
@@ -72,7 +72,7 @@ app.get('/opportunity', async (req, res) => {
         let response = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos?sol=1000&api_key=${process.env.API_KEY}`)
             .then(res => { return res.json() })
 
-        console.log(`Response: ${response.photos[0].id}`)
+        console.log(`Response opportunity: ${response.photos[0].id}`)
 
         res.send({ response })
     } catch (err) {
@@ -85,7 +85,7 @@ app.get('/spirit', async (req, res) => {
         let response = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/spirit/photos?sol=1000&api_key=${process.env.API_KEY}`)
             .then(res => { return res.json() })
 
-        console.log(`Response: ${response.photos[0].id}`)
+        console.log(`Response spirit: ${response.photos[0].id}`)
 
         res.send({ response })
     } catch (err) {

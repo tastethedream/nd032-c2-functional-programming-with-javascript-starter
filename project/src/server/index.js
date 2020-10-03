@@ -56,7 +56,8 @@ app.get('/apod', async (req, res) => {
 
 app.get('/curiosity', async (req, res) => {
     try {
-        let response = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=${process.env.API_KEY}`)
+        let response = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=2899&api_key=${process.env.API_KEY}`)
+        
             .then(res => { return res.json() })
 
         console.log(`Response curiosity: ${response.photos[0].id}`)
@@ -69,7 +70,7 @@ app.get('/curiosity', async (req, res) => {
 
 app.get('/opportunity', async (req, res) => {
     try {
-        let response = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos?sol=1000&api_key=${process.env.API_KEY}`)
+              let response = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos?sol=2899&api_key=${process.env.API_KEY}`)
             .then(res => { return res.json() })
 
         console.log(`Response opportunity: ${response.photos[0].id}`)
@@ -82,11 +83,11 @@ app.get('/opportunity', async (req, res) => {
 
 app.get('/spirit', async (req, res) => {
     try {
-        let response = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/spirit/photos?sol=1000&api_key=${process.env.API_KEY}`)
+        let response = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/spirit/photos?sol=2000&api_key=${process.env.API_KEY}`)
             .then(res => { return res.json() })
 
-        console.log(`Response spirit: ${response.photos[0].id}`)
-
+        console.log(`Response spirit: ${response.photos[0].rover.max_sol}`)
+        
         res.send({ response })
     } catch (err) {
         console.log('error:', err);
@@ -94,7 +95,7 @@ app.get('/spirit', async (req, res) => {
 });
 
 
-
+//https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-6-3&api_key=DEMO_KEY
 
 
 app.listen(port, () => console.log(`You are live on port ${port}!`))

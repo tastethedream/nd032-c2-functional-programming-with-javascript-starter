@@ -120,18 +120,18 @@ function spiritButton() {
 // Hide Rover screen until required
 function hideRoverScreen() {
     // get the selection Screen
-    alert("hideRoverScreen")
+    //alert("hideRoverScreen")
     const showScreen = document.getElementById('showRover');
     // get the current value of the screen display property
     const displaySetting = showScreen.style.display;
-    if (displaySetting == 'block') {
-      // if screen is visable hide it
-      showScreen.style.display = 'none';
-    } else {
-      // if screen is hidden. show it
+    // if (displaySetting == 'block') {
+    //   // if screen is visable hide it
+    //   showScreen.style.display = 'none';
+    // } else {
+    //   // if screen is hidden. show it
       showScreen.style.display = 'block';
     }
-}
+//}
 
 // Create rover screen content
 const roverScreen = (state) => {
@@ -147,9 +147,8 @@ const roverScreen = (state) => {
     //     </main>
     // `
 
-    return `
-        <h3>Put things on the page!</h3>   
-        <h3>You have selected: ${marsRover.response.photos[0].rover.name}</h3>   
+    return `  
+        <h1>You have selected: ${marsRover.response.photos[0].rover.name}</h1>   
         <h2>Mission Manifest</h2> 
         <ul class="manifest">
             <li> Launch Date: ${marsRover.response.photos[0].rover.launch_date}</li>
@@ -157,7 +156,14 @@ const roverScreen = (state) => {
             <li> Rover Status:  ${marsRover.response.photos[0].rover.status} </li>           
         </ul>
         <h2>Rover Images</h2> 
+
+        <p>These images were captured on:  ${marsRover.response.photos[0].earth_date}</p>
+
         <img src="${marsRover.response.photos[0].img_src}" height="350px" width="100%" />
+       
+        <img src="${marsRover.response.photos[1].img_src}" height="350px" width="100%" />
+        
+        <img src="${marsRover.response.photos[2].img_src}" height="350px" width="100%" />
 
     `
   }
@@ -187,7 +193,6 @@ const ImageOfTheDay = (apod) => {
         return (`
             <img src="${apod.image.url}" height="350px" width="100%" />
             <p>${apod.image.title}</p>
-            <p>${apod.image.copyright}</p>
             <p>${apod.image.explanation}</p>
         `)
     }

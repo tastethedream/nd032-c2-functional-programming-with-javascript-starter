@@ -23,7 +23,6 @@ window.addEventListener('load', () => {
     //renderRover(showRover, store);
 });
 
-
 const render = async (root, state) => {
     root.innerHTML = welcomeScreen(state)
 };
@@ -37,15 +36,12 @@ const updateStore = (store, newState) => {
     store = Object.assign(store, newState)
     render(root, store)
     renderRoverButtons(roverButtons)
-    //renderRoverImage(showRover)
 };
 
 const updateRoverStore = (store, newstate) => {
     store = Object.assign(store, newstate)
     const showRover = document.getElementById('showRover');
     console.log(`updateRoverStore: ${showRover}`)
-    //render(root, store)
-    //renderRoverButtons(roverButtons)
     renderRover(showRover, store)
 };
 
@@ -81,6 +77,27 @@ const welcomeScreen = (state) => {
     `
 };
 
+// Remove welcome screen when select rover button is clicked
+function hideWelcome(){
+    document.getElementById('welcome').style.display ='none';
+};
+
+// Hide selection screen until required
+function hideSelectionScreen() {
+    // get the selection Screen
+    const showScreen = document.getElementById('selection');
+
+    // get the current value of the screen display property
+    const displaySetting = showScreen.style.display;
+
+    if (displaySetting == 'block') {
+      // if screen is visable hide it
+      showScreen.style.display = 'none';
+    } else {
+      // if screen is hidden. show it
+      showScreen.style.display = 'block';
+        }
+  };
 
 // create selection screen content
 const selectionScreen = () => {
@@ -120,44 +137,29 @@ function spiritButton() {
 // Hide Rover screen until required
 function hideRoverScreen() {
     // get the selection Screen
-    //alert("hideRoverScreen")
     const showScreen = document.getElementById('showRover');
     // get the current value of the screen display property
     const displaySetting = showScreen.style.display;
-    // if (displaySetting == 'block') {
-    //   // if screen is visable hide it
-    //   showScreen.style.display = 'none';
-    // } else {
-    //   // if screen is hidden. show it
       showScreen.style.display = 'block';
     }
-//}
 
 // Create rover screen content
 const roverScreen = (state) => {
 
     let { rovers, apod, marsRover } = state
 
-    // return `
-    //     <main>
-    //         <section>
-    //             <h3>Put things on the page!</h3>
-    //             ${RoverContent(marsRover)}
-    //         </section>
-    //     </main>
-    // `
-
     return `  
-        <h1>You have selected: ${marsRover.response.photos[0].rover.name}</h1>   
-        <h2>Mission Manifest</h2> 
+        <h2>You have selected: ${marsRover.response.photos[0].rover.name}</h2>   
+        <h3>Mission Manifest</h3> 
         <ul class="manifest">
             <li> Launch Date: ${marsRover.response.photos[0].rover.launch_date}</li>
             <li> Landing Date: ${marsRover.response.photos[0].rover.landing_date}</li>
             <li> Rover Status:  ${marsRover.response.photos[0].rover.status} </li>           
         </ul>
-        <h2>Rover Images</h2> 
 
-        <p>These images were captured on:  ${marsRover.response.photos[0].earth_date}</p>
+        <h3>Rover Images</h3> 
+
+        <h4>These images were captured on:  ${marsRover.response.photos[0].earth_date}</h4>
 
         <img src="${marsRover.response.photos[0].img_src}" height="350px" width="100%" />
        
@@ -176,63 +178,26 @@ const ImageOfTheDay = (apod) => {
     const today = new Date()
     const photodate = new Date(apod.date)
     console.log(photodate.getDate(), today.getDate());
-
     console.log(photodate.getDate() === today.getDate());
     if (!apod || apod.date === today.getDate() ) {
         getImageOfTheDay(store)
     }
-
     // check if the photo of the day is actually type video!
     if (apod.media_type === "video") {
         return (`
             <p>See today's featured video <a href="${apod.url}">here</a></p>
-            <p>${apod.title}</p>
+            <h3>${apod.title}</h3>
             <p>${apod.explanation}</p>
         `)
     } else {
         return (`
             <img src="${apod.image.url}" height="350px" width="100%" />
-            <p>${apod.image.title}</p>
+            <h3>${apod.image.title}</h3>
             <p>${apod.image.explanation}</p>
         `)
     }
 };
-
-const RoverContent = (marsRover) => {
-
-    if (!marsRover) {
-        //alert("curiosity was clicked")
-        getCuriosityContent(store)
-       
-    }
-      
-    return `
-    <div id="roverData">
-        <main>
-            <section class="roverContainer">
-                <div class="roverPic">
-                <h1>Thank you for choosing Mars Rover: ${marsRover.response.photos[0].rover.name}</h1> 
-              
-                <h2>Mission Manifest</h2> 
-                <ul class="manifest">
-                    <li> Launch Date: ${marsRover.response.photos[0].rover.launch_date}</li>
-                    <li> Landing Date: ${marsRover.response.photos[0].rover.landing_date}</li>
-                    <li> Rover Status:  ${marsRover.response.photos[0].rover.status} </li>           
-                </ul>
-    
-                <h2>Rover Images</h2> 
-                <img src="${marsRover.response.photos[0].img_src}" height="350px" width="100%" />
-                <p>Mars image date: ${marsRover.response.photos[0].earth_date}</p>
-               
-                </div>    
-            </section>
-        </main>
-    
-    </div>      
-    `  
-};
-    
-
+  
 // ------------------------------------------------------  API CALLS
 
 // Image of the Day API call
@@ -242,9 +207,7 @@ const getImageOfTheDay = (state) => {
     fetch(`http://localhost:8080/apod`)
         .then(res => res.json())
         .then(apod => updateStore(store, { apod }))
-
 };
-
 
 const getCuriosityContent = (state) => {
     let { marsRover } = state
@@ -252,7 +215,6 @@ const getCuriosityContent = (state) => {
     fetch(`http://localhost:8080/curiosity`)
         .then(res => res.json())
         .then(marsRover => updateRoverStore(store, { marsRover }))
-
 };
 
 const getOpportunityContent = (state) => {
@@ -261,7 +223,6 @@ const getOpportunityContent = (state) => {
     fetch(`http://localhost:8080/opportunity`)
         .then(res => res.json())
         .then(marsRover => updateRoverStore(store, { marsRover }))
-
 };
 
 const getSpiritContent = (state) => {
@@ -270,62 +231,8 @@ const getSpiritContent = (state) => {
     fetch(`http://localhost:8080/spirit`)
         .then(res => res.json())
         .then(marsRover => updateRoverStore(store, { marsRover }))
-
 };
 
-// function getImageOfTheDay (url) {
-//     //let { apod } = state
-//     return fetch(url).then((response) => response.json());
-// }
-//     getImageOfTheDay("http://localhost:8080/apod").then((res) =>
-//         console.log(res));
-       
 
 
 
-// RoverData API call
-
-// const getRoverContent = (state) => {
-// 	let { rover } = state
-// 	console.log(state);
-//     //fetch(`http://localhost:8080/rover/${state}`)
-//     fetch(`http://localhost:8080/rover/curiosity`)
-//         .then(res => res.json())
-//         .then(rover => updateStore(store, { rover }))
-// 		console.log(`client.js getRoverContent: ${rover.photos}`);
-// 			// let a = data.data.photos
-// 			// const newState = store.set("data", a)
-// 			// updateStore(store, newState)
-// 			// processData(newState)
-
-
-// const getImageOfTheDayRover = (state) => {
-//     let { mars } = state
-
-//     fetch(`http://localhost:8080/rover`)
-//         .then(res => res.json())
-//         .then(mars => updateStoreRover(store, { mars }))
-// }
-
-// Remove welcome screen when select rover button is clicked
-function hideWelcome(){
-    document.getElementById('welcome').style.display ='none';
-       //alert("choose rover button was clicked");
-};
-
-// Hide selection screen until required
-function hideSelectionScreen() {
-    // get the selection Screen
-    const showScreen = document.getElementById('selection');
-
-    // get the current value of the screen display property
-    const displaySetting = showScreen.style.display;
-
-    if (displaySetting == 'block') {
-      // if screen is visable hide it
-      showScreen.style.display = 'none';
-    } else {
-      // if screen is hidden. show it
-      showScreen.style.display = 'block';
-        }
-  };

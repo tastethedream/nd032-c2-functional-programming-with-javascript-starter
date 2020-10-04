@@ -28,31 +28,7 @@ app.get('/apod', async (req, res) => {
     }
 });
 
-// Mars Rover Image API call
-
-// app.get('/rover', async (req, res) => {
-//     try {
-//         let roverImage = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&page=2&api_key=${process.env.API_KEY}`)
-//             .then(res => res.json())
-//           return res.send({ roverImage });
-          
-//     } catch (err) {
-//         console.log('error:', err);
-//     }
-// });
-
-// app.get('/rover/:roverName', async (req, res) => {
-//     try {
-//         let name = req.params['RoverName']
-//         console.log(name)
-//         let roverImage = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${req.query.RoverName}/latest_photos?api_key=${process.env.API_KEY}`)
-//             .then(res => res.json());
-     
-//        return res.send({ roverImage });
-//     } catch (err) {
-//         console.log('error:', err);
-//     }
-// })
+// Rover API calls
 
 app.get('/curiosity', async (req, res) => {
     try {
@@ -93,9 +69,6 @@ app.get('/spirit', async (req, res) => {
         console.log('error:', err);
     }
 });
-
-
-//https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-6-3&api_key=DEMO_KEY
 
 
 app.listen(port, () => console.log(`You are live on port ${port}!`))

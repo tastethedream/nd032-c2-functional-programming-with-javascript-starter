@@ -1,19 +1,10 @@
+
 let store = {
     apod: '',
     marsRover: '',
     rovers: ['Curiosity', 'Opportunity', 'Spirit'],
-   // photos: [],
-   
+    user: 'Dawn'
 };
-
-// const store = Immutable.Map({
-//     apod: '',
-//     rover: '',
-//     marsRover: '',
-//     roverName: ['Curiosity', 'Opportunity', 'Spirit'],
-//     // photos: [],
-//     // data: null
-// });
 
 // add our markup to the page
 const root = document.getElementById('root');
@@ -21,7 +12,6 @@ const root = document.getElementById('root');
 // listening for load event because page should load before any JS is called
 window.addEventListener('load', () => {
     render(root, store);
-    //renderRover(showRover, store);
 });
 
 const render = async (root, state) => {
@@ -41,8 +31,6 @@ const updateStore = (store, newState) => {
 
 const updateRoverStore = (store, newstate) => {
     store = Object.assign(store, newstate)
-    const showRover = document.getElementById('showRover');
-    console.log(`updateRoverStore: ${showRover}`)
     renderRover(showRover, store)
 };
 
@@ -57,11 +45,11 @@ const welcomeScreen = (state) => {
     return `
         <div id="welcome">
             <header>
-                <h1 class="welcomeTitle">Mars Rover Dashboard!</h1>
+                <h1 class="welcomeTitle">Hello ${store.user},  welcome to the Mars Rover Dashboard!</h1>
             </header>
             <main>
                 <section>
-                    <h3>NASA Image Of The Day!</h3>
+                    <h2>NASA Image Of The Day!</h2>
                     <p>
                         One of the most popular websites at NASA is the Astronomy Picture of the Day. In fact, this website is one of the most popular websites across all federal agencies. It has the popular appeal of a Justin Bieber video.
                     </p>
@@ -87,7 +75,6 @@ function hideWelcome(){
 function hideSelectionScreen() {
     // get the selection Screen
     const showScreen = document.getElementById('selection');
-
     // get the current value of the screen display property
     const displaySetting = showScreen.style.display;
 
@@ -97,8 +84,8 @@ function hideSelectionScreen() {
     } else {
       // if screen is hidden. show it
       showScreen.style.display = 'block';
-        }
-  };
+    }
+};
 
 // create selection screen content
 const selectionScreen = () => {
@@ -142,34 +129,8 @@ function hideRoverScreen() {
     // get the current value of the screen display property
     const displaySetting = showScreen.style.display;
       showScreen.style.display = 'block';
-    }
+ }
 
-// Create rover screen content
-// const roverScreen = (state) => {
-
-//     let { rovers, apod, marsRover } = state
-
-//     return `  
-//         <h2>You have selected: ${marsRover.result.photos[0].rover.name}</h2>   
-//         <h3>Mission Manifest</h3> 
-//         <ul class="manifest">
-//             <li> Launch Date: ${marsRover.result.photos[0].rover.launch_date}</li>
-//             <li> Landing Date: ${marsRover.result.photos[0].rover.landing_date}</li>
-//             <li> Rover Status:  ${marsRover.result.photos[0].rover.status} </li>           
-//         </ul>
-
-//         <h3>Rover Images</h3> 
-
-//         <h4>These images were captured on:  ${marsRover.result.photos[0].earth_date}</h4>
-
-//         <img src="${marsRover.result.photos[0].img_src}" height="350px" width="100%" />
-       
-//         <img src="${marsRover.result.photos[1].img_src}" height="350px" width="100%" />
-        
-//         <img src="${marsRover.result.photos[2].img_src}" height="350px" width="100%" />
-
-//     `
-//   }
 
   const roverScreen = (state) => {
 
@@ -188,14 +149,10 @@ function hideRoverScreen() {
             <h3>Rover Images</h3> 
 
             <h4>These images were captured on:  ${photo.earth_date}</h4>
-
             
             <img src="${photo.img_src}" height="350px" width="100%" />
-
             `
     });
-  
-           
   
 return imageView.join("");
 

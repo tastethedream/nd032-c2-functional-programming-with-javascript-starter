@@ -3,15 +3,16 @@ let store = {
     marsRover: '',
     rovers: ['Curiosity', 'Opportunity', 'Spirit'],
    // photos: [],
-    //data: null
+   
 };
 
-// const map = Immutable.Map({
+// const store = Immutable.Map({
 //     apod: '',
 //     rover: '',
+//     marsRover: '',
 //     roverName: ['Curiosity', 'Opportunity', 'Spirit'],
-//     photos: [],
-//     data: null
+//     // photos: [],
+//     // data: null
 // });
 
 // add our markup to the page
@@ -144,31 +145,61 @@ function hideRoverScreen() {
     }
 
 // Create rover screen content
-const roverScreen = (state) => {
+// const roverScreen = (state) => {
+
+//     let { rovers, apod, marsRover } = state
+
+//     return `  
+//         <h2>You have selected: ${marsRover.result.photos[0].rover.name}</h2>   
+//         <h3>Mission Manifest</h3> 
+//         <ul class="manifest">
+//             <li> Launch Date: ${marsRover.result.photos[0].rover.launch_date}</li>
+//             <li> Landing Date: ${marsRover.result.photos[0].rover.landing_date}</li>
+//             <li> Rover Status:  ${marsRover.result.photos[0].rover.status} </li>           
+//         </ul>
+
+//         <h3>Rover Images</h3> 
+
+//         <h4>These images were captured on:  ${marsRover.result.photos[0].earth_date}</h4>
+
+//         <img src="${marsRover.result.photos[0].img_src}" height="350px" width="100%" />
+       
+//         <img src="${marsRover.result.photos[1].img_src}" height="350px" width="100%" />
+        
+//         <img src="${marsRover.result.photos[2].img_src}" height="350px" width="100%" />
+
+//     `
+//   }
+
+  const roverScreen = (state) => {
 
     let { rovers, apod, marsRover } = state
 
-    return `  
-        <h2>You have selected: ${marsRover.response.photos[0].rover.name}</h2>   
-        <h3>Mission Manifest</h3> 
-        <ul class="manifest">
-            <li> Launch Date: ${marsRover.response.photos[0].rover.launch_date}</li>
-            <li> Landing Date: ${marsRover.response.photos[0].rover.landing_date}</li>
-            <li> Rover Status:  ${marsRover.response.photos[0].rover.status} </li>           
-        </ul>
+    const imageView = marsRover.result.photos.map((photo) => {
+        return ` 
+            <h2>You have selected: ${photo.rover.name}</h2>
+            <h3>Mission Manifest</h3> 
+            <ul class="manifest">
+                <li> Launch Date: ${photo.rover.launch_date}</li>
+                <li> Landing Date: ${photo.rover.landing_date}</li>
+                <li> Rover Status:  ${photo.rover.status} </li>           
+            </ul>
 
-        <h3>Rover Images</h3> 
+            <h3>Rover Images</h3> 
 
-        <h4>These images were captured on:  ${marsRover.response.photos[0].earth_date}</h4>
+            <h4>These images were captured on:  ${photo.earth_date}</h4>
 
-        <img src="${marsRover.response.photos[0].img_src}" height="350px" width="100%" />
-       
-        <img src="${marsRover.response.photos[1].img_src}" height="350px" width="100%" />
-        
-        <img src="${marsRover.response.photos[2].img_src}" height="350px" width="100%" />
+            
+            <img src="${photo.img_src}" height="350px" width="100%" />
 
-    `
-  }
+            `
+    });
+  
+           
+  
+return imageView.join("");
+
+  };
 
 // ------------------------------------------------------  COMPONENTS
 // Example of a pure function that renders infomation requested from the backend

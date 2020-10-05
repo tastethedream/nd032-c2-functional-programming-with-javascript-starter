@@ -28,17 +28,17 @@ app.get('/apod', async (req, res) => {
     }
 });
 
-// Rover API calls
+// Rover API call
 
 app.get('/curiosity', async (req, res) => {
     try {
-        let response = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=2899&api_key=${process.env.API_KEY}`)
+        let result = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=2899&api_key=${process.env.API_KEY}`)
         
             .then(res => { return res.json() })
 
-        console.log(`Response curiosity: ${response.photos[0].id}`)
+        console.log(`Response curiosity: ${result.photos[0].id}`)
 
-        res.send({ response })
+        res.send({ result })
     } catch (err) {
         console.log('error:', err);
     }
@@ -46,12 +46,12 @@ app.get('/curiosity', async (req, res) => {
 
 app.get('/opportunity', async (req, res) => {
     try {
-              let response = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos?sol=2899&api_key=${process.env.API_KEY}`)
+              let result = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos?sol=5000&api_key=${process.env.API_KEY}`)
             .then(res => { return res.json() })
 
-        console.log(`Response opportunity: ${response.photos[0].id}`)
+        console.log(`Response opportunity: ${result.photos[0].id}`)
 
-        res.send({ response })
+        res.send({ result })
     } catch (err) {
         console.log('error:', err);
     }
@@ -59,12 +59,12 @@ app.get('/opportunity', async (req, res) => {
 
 app.get('/spirit', async (req, res) => {
     try {
-        let response = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/spirit/photos?sol=2000&api_key=${process.env.API_KEY}`)
+        let result = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/spirit/photos?sol=2000&api_key=${process.env.API_KEY}`)
             .then(res => { return res.json() })
 
-        console.log(`Response spirit: ${response.photos[0].rover.max_sol}`)
+        console.log(`Response spirit: ${result.photos[0].rover.max_sol}`)
         
-        res.send({ response })
+        res.send({ result })
     } catch (err) {
         console.log('error:', err);
     }

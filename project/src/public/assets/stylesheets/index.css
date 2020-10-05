@@ -11,7 +11,7 @@ body {
 
 header {
   text-align: center;
-  background: darkgrey;
+  background: orangered;
   color: white;
   width: auto;
   height: auto;
@@ -44,19 +44,6 @@ h3 {
 h4 {
   text-align: center;
   font-weight: bold;
-}
-
-footer {
-  font-size: 12px;
-  text-align: center;
-  margin-top: 30px;
-  background: darkgray;
-  height: 30px;
-}
-
-footer h4 {
-  color: white;
-  padding-top: 8px;
 }
 
 /* Welcome screen styles */

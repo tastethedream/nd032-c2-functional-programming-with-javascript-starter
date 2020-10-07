@@ -94,14 +94,13 @@ const selectionScreen = () => {
             <header>
                 <h1 class="welcomeTitle">Please Select Your Rover</h1>
             </header>
-            <main>
-                <section class="selectionContainer>
-                    <div class="buttons">
-                        <button class="roverbutton"id="curiosity"onclick="curiosityButton()">Curiosity</button>
-                        <button class="roverbutton" id="opportunity" onclick="opportunityButton()">Opportunity</button>
-                        <button class="roverbutton" id="spirit" onclick="spiritButton()">Spirit</button>
-                    </div>    
-                </section>
+            <div class="mycentre myspace">
+                 <div class="buttons">
+                    <button class="roverbutton"id="curiosity"onclick="curiosityButton()">Curiosity</button>
+                    <button class="roverbutton" id="opportunity" onclick="opportunityButton()">Opportunity</button>
+                    <button class="roverbutton" id="spirit" onclick="spiritButton()">Spirit</button>
+                </div> 
+            </div>
             </main>
          </div>      
     `
@@ -138,19 +137,24 @@ function hideRoverScreen() {
 
     const imageView = marsRover.result.photos.map((photo) => {
         return ` 
-            <h2>You have selected: ${photo.rover.name}</h2>
-            <h3>Mission Manifest</h3> 
-            <ul class="manifest">
-                <li> Launch Date: ${photo.rover.launch_date}</li>
-                <li> Landing Date: ${photo.rover.landing_date}</li>
-                <li> Rover Status:  ${photo.rover.status} </li>           
-            </ul>
+            <div class="roverContainer">
+                <div class="roverItem">
+                <h2>You have selected: ${photo.rover.name}</h2>
+                <h3>Mission Manifest</h3> 
+                <ul class="manifest">
+                    <li> Launch Date: ${photo.rover.launch_date}</li>
+                    <li> Landing Date: ${photo.rover.landing_date}</li>
+                    <li> Rover Status:  ${photo.rover.status} </li>           
+                 </ul>
 
-            <h3>Rover Images</h3> 
+                <h3>Rover Images</h3> 
 
-            <h4>These images were captured on:  ${photo.earth_date}</h4>
-            
-            <img src="${photo.img_src}" height="350px" width="100%" />
+                <h4>These images were captured on:  ${photo.earth_date}</h4>
+
+                <img src="${photo.img_src}" height="350px" width="100%" />
+                 </div>
+                
+            </div>
             `
     });
   

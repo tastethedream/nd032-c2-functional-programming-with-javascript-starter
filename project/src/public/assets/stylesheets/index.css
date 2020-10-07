@@ -3,6 +3,8 @@
 /* Universal styles */
 
 body {
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   font-family: Arial;
@@ -134,19 +136,121 @@ li {
   line-height: 2;
 }
 
-/* -------------------  TABLET  --------------------- */
-@media (min-width: 768px) {
-  /* use mobile */
+div .myspace{
+  padding-bottom: 20pt;
+  padding-top: 20pt;
+  font-size: 0
 }
 
-/* -------------------  DESKTOP  -------------------- */
+div .roverContainer {
+ display: flex;
+ flex-wrap: wrap;
+ padding: 0 4px;
+ 
+}
+
+div .roverItem {
+    flex: 100%;
+    max-width: 100%;
+    padding: 0 4px;
+}
+
+.roverContainer img {
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
+}
+
+ 
+
+/* -------------------  Media Queries -------------------- */
+@media (min-width: 768px) {
+
+.roverbutton {
+  background: orangered;
+}
+
+div .mycentre {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  align-content: center;
+  text-align: center;
+}
+
+div .myspace{
+  padding-bottom: 20pt;
+  padding-top: 20pt;
+  font-size: 0
+}
+
+
 
 @media (min-width: 1224px) {
-  /* use mobile */
+
+  .roverbutton {
+    background: purple;
+  }
+  
+  div .mycentre {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    margin-bottom: 0;
+    align-content: center;
+    text-align: center;
+  }
+  
+  div .myspace{
+    padding-bottom: 20pt;
+    padding-top: 20pt;
+    font-size: 0
+  }
+
+  div .roverItem {
+    flex: 50%;
+    max-width: 50%;
+    padding: 0 4px;
+}
+div .roverContainer {
+      align-content: center;
+      margin-left: 450px;;
+    }
 }
 
 /* -------------------  LARGE SCREENS  -------------- */
 
 @media (min-width: 1824px) {
-  /* use mobile */
+
+  .roverbutton {
+    background: lightseagreen;
+  }
+
+    div .mycentre {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 0;
+      margin-bottom: 0;
+      align-content: center;
+      text-align: center;
+    }
+
+    div .roverContainer {
+      align-content: center;
+      margin-left: 400px;;
+    }
+
+    div .roverItem {
+      flex: 75%;
+      max-width: 75%;
+      padding: 0 4px;
+      align-content: center;
+    }
+    
+
+}    
 }

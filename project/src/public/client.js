@@ -38,6 +38,7 @@ const renderRover = async (showRover, state) => {
   showRover.innerHTML = roverScreen(state)
 };
 
+
 // create welcome screen content
 const welcomeScreen = (state) => {
     let { apod } = state
@@ -57,7 +58,7 @@ const welcomeScreen = (state) => {
                 </section>
                 <div class="buttonContainer">
                     <div class="centre">
-                        <button id="goToRovers" onclick="hideWelcome(); hideSelectionScreen()">Click here to select your Mars Rover</button>
+                        <button id="goToRovers" onclick="hideWelcome(); setTimeout(hideSelectionScreen, 3000)">Click here to select your Mars Rover</button>
                     </div>    
                 </div>
             </main>
@@ -68,7 +69,8 @@ const welcomeScreen = (state) => {
 
 // Remove welcome screen when select rover button is clicked
 function hideWelcome(){
-    document.getElementById('welcome').style.display ='none';
+      document.getElementById('welcome').style.display ='none';
+   
 };
 
 // Hide selection screen until required
